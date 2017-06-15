@@ -396,6 +396,30 @@ class TemplateLib
             $parse['show_umod_notice']  = $this->parseTemplate($this->getTemplate('general/notices_view'), $parse);
         }
 
+        // RESOURCES MAX
+        $metal_max      = FormatLib::prettyNumber($this->current_planet['planet_metal_max']);
+        $crystal_max    = FormatLib::prettyNumber($this->current_planet['planet_crystal_max']);
+        $deuterium_max  = FormatLib::prettyNumber($this->current_planet['planet_deuterium_max']);
+        $metal_mmax      = $this->current_planet['planet_metal_max'];
+        $crystal_mmax    = $this->current_planet['planet_crystal_max'];
+        $deuterium_mmax  = $this->current_planet['planet_deuterium_max'];
+
+        // RESOURCES PER HOUR
+        $game_resource_multiplier       = FunctionsLib::readConfig('resource_multiplier');
+        $game_metal_basic_income        = FunctionsLib::readConfig('metal_basic_income');
+        $game_crystal_basic_income      = FunctionsLib::readConfig('crystal_basic_income');
+        $game_deuterium_basic_income    = FunctionsLib::readConfig('deuterium_basic_income');
+
+        $metal_perhour      = ($this->current_planet['planet_metal_perhour'] + $game_metal_basic_income) * $game_resource_multiplier;
+        $crystal_perhour    = ($this->current_planet['planet_crystal_perhour'] + $game_crystal_basic_income) * $game_resource_multiplier;
+        $deuterium_perhour  = ($this->current_planet['planet_deuterium_perhour'] + $game_deuterium_basic_income) * $game_resource_multiplier;
+
+        // RESOURCES NUMBER
+        $metalh      = $this->current_planet['planet_metal'];
+        $crystalh    = $this->current_planet['planet_crystal'];
+        $deuteriumh  = $this->current_planet['planet_deuterium'];
+
+
         // RESOURCES FORMAT
         $metal      = FormatLib::prettyNumber($this->current_planet['planet_metal']);
         $crystal    = FormatLib::prettyNumber($this->current_planet['planet_crystal']);
@@ -435,6 +459,19 @@ class TemplateLib
 
             $energy = FormatLib::colorRed($energy);
         }
+
+        $parse['metal_max']             = $metal_max;
+        $parse['crystal_max']           = $crystal_max;
+        $parse['deuterium_max']         = $deuterium_max;
+        $parse['metal_mmax']            = $metal_mmax;
+        $parse['crystal_mmax']          = $crystal_mmax;
+        $parse['deuterium_mmax']        = $deuterium_mmax;
+        $parse['metal_perhour']         = $metal_perhour;
+        $parse['crystal_perhour']       = $crystal_perhour;
+        $parse['deuterium_perhour']     = $deuterium_perhour;
+        $parse['metalh']                = $metalh;
+        $parse['crystalh']              = $crystalh;
+        $parse['deuteriumh']            = $deuteriumh;
 
         $parse['metal']             = $metal;
         $parse['crystal']           = $crystal;
