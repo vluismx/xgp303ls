@@ -90,15 +90,27 @@ class Expedition extends Missions
 
                 // EXPEDITION RESULT "HAZARD"
                 switch ($this->hazard) {
-                    // BLACKHOLE
-                    case (($this->hazard < 3)):
-                        $this->hazardBlackhole($fleet_row, $current_fleet);
+                    // RESOURCES
+                    case (($this->hazard == 0)):
+                        $this->hazardResources($fleet_row, $fleet_capacity);
+
+                        break;
+
+                    // SHIPS
+                    case (($this->hazard == 1)):
+                        $this->hazardShips($fleet_row, $fleet_points, $current_fleet);
 
                         break;
 
                     // NOTHING
-                    case (($this->hazard == 3)):
+                    case (($this->hazard == 2)):
                         $this->hazardNothing($fleet_row);
+
+                        break;
+
+                    // SHIPS
+                    case (($this->hazard == 3)):
+                        $this->hazardShips($fleet_row, $fleet_points, $current_fleet);
 
                         break;
 
@@ -108,16 +120,28 @@ class Expedition extends Missions
 
                         break;
 
-                    // NOTHING
+                    // BLACKHOLE
                     case (($this->hazard == 7)):
-                        $this->hazardNothing($fleet_row);
+                        $this->hazardBlackhole($fleet_row, $current_fleet);
+
+                        break;
+
+                    // RESOURCES
+                    case (($this->hazard == 8)):
+                        $this->hazardResources($fleet_row, $fleet_capacity);
 
                         break;
 
 
                     // SHIPS
-                    case ((($this->hazard >= 8) && ($this->hazard < 11))):
+                    case (($this->hazard == 9)):
                         $this->hazardShips($fleet_row, $fleet_points, $current_fleet);
+
+                        break;
+
+                    // NOTHING
+                    case (($this->hazard == 10)):
+                        $this->hazardNothing($fleet_row);
 
                         break;
                 }
@@ -150,6 +174,9 @@ class Expedition extends Missions
      */
     private function hazardBlackhole($fleet_row, $current_fleet)
     {
+        // GET A NUMBER BETWEEN 0 AND 3 RANDOMLY
+        $this->hazard = mt_rand(0, 2);
+
         $this->hazard += 1;
         $lost_amount = (($this->hazard * 33) + 1) / 100;
 
